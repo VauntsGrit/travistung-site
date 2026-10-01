@@ -1,20 +1,22 @@
 :root {
   --x: 0px;
   --y: 0px;
+  --quote-max: 860px;
 }
 
 * { box-sizing: border-box; }
 
 html, body {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   margin: 0;
-  overflow: hidden;
   background: #05070a;
 }
 
 body {
-  font-family: system-ui, sans-serif;
+  overflow: hidden;
+  font-family: Georgia, "Times New Roman", serif;
+  color: #f4f5f7;
 }
 
 .scene {
@@ -28,10 +30,10 @@ body {
   position: absolute;
   inset: -3%;
   background:
-    linear-gradient(rgba(4, 7, 11, 0.12), rgba(2, 4, 7, 0.32)),
+    linear-gradient(rgba(4, 7, 11, 0.16), rgba(2, 4, 7, 0.36)),
     url("assets/alpine.png") center center / cover no-repeat;
   transform: translate3d(var(--x), var(--y), 0) scale(1.055);
-  filter: saturate(0.72) contrast(1.04) brightness(0.82);
+  filter: saturate(0.72) contrast(1.04) brightness(0.80);
   transition: transform 1.8s cubic-bezier(.2,.7,.2,1);
   will-change: transform;
 }
@@ -63,7 +65,7 @@ body {
   inset: 0;
   background:
     radial-gradient(circle at 72% 18%, transparent 0 22%, rgba(0,0,0,.12) 48%, rgba(0,0,0,.58) 100%),
-    linear-gradient(to bottom, rgba(0,0,0,.02), rgba(0,0,0,.18));
+    linear-gradient(to bottom, rgba(0,0,0,.06), rgba(0,0,0,.24));
   pointer-events: none;
 }
 
@@ -74,6 +76,40 @@ body {
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E");
   animation: grain 9s steps(8) infinite;
+}
+
+.quote-wrap {
+  position: relative;
+  z-index: 5;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 7vh 5vw 10vh;
+}
+
+.quote {
+  margin: 0;
+  width: min(100%, var(--quote-max));
+  padding: 1.4rem 1.55rem;
+  border-radius: 18px;
+  background: linear-gradient(to bottom, rgba(7, 10, 14, 0.32), rgba(7, 10, 14, 0.16));
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.28);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}
+
+.quote p {
+  margin: 0;
+  text-align: center;
+  text-wrap: balance;
+  font-weight: 400;
+  letter-spacing: 0.018em;
+  line-height: 1.35;
+  font-size: clamp(1.35rem, 1rem + 1.4vw, 2.25rem);
+  color: rgba(248, 249, 252, 0.96);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 30px rgba(0,0,0,0.35);
 }
 
 @keyframes driftA {
@@ -95,14 +131,58 @@ body {
   100% { transform: translate(0, 0); }
 }
 
+@media (max-width: 900px) {
+  .quote-wrap {
+    align-items: center;
+    padding: 6vh 6vw;
+  }
+
+  .quote {
+    padding: 1.2rem 1.1rem;
+    border-radius: 16px;
+    width: min(100%, 38rem);
+  }
+}
+
 @media (max-width: 700px) {
   .background {
     inset: -1%;
-    transform: scale(1.035);
-    background-position: 68% center;
+    transform: scale(1.04);
+    background-position: 64% center;
   }
+
   .fog { opacity: 0.06; }
   .grain { opacity: 0.025; }
+
+  .quote-wrap {
+    align-items: center;
+    padding: 5vh 5vw;
+  }
+
+  .quote {
+    padding: 1.15rem 1rem;
+    border-radius: 15px;
+    background: linear-gradient(to bottom, rgba(7, 10, 14, 0.40), rgba(7, 10, 14, 0.24));
+  }
+
+  .quote p {
+    font-size: clamp(1.15rem, 0.92rem + 1.2vw, 1.65rem);
+    line-height: 1.42;
+  }
+}
+
+@media (max-width: 420px) {
+  .background {
+    background-position: 67% center;
+  }
+
+  .quote-wrap {
+    padding: 4.5vh 4.5vw;
+  }
+
+  .quote p {
+    font-size: 1.12rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
